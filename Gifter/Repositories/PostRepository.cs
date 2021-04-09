@@ -141,9 +141,14 @@ namespace Gifter.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Title, Caption, DateCreated, ImageUrl, UserProfileId
-                            FROM Post
-                           WHERE Id = @Id";
+                          SELECT p.Title, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId,
+
+                            up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
+                            up.ImageUrl AS UserProfileImageUrl, up.id AS PostUserProfileId
+
+                            FROM Post p
+                                LEFT JOIN UserProfile up ON p.UserProfileId = up.id
+                           WHERE p.Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -160,6 +165,14 @@ namespace Gifter.Repositories
                             DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
                             ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Email = DbUtils.GetString(reader, "Email"),
+                                DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                                ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+                            }
                         };
                     }
 
