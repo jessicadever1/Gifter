@@ -81,4 +81,9 @@ INSERT INTO [Comment]
   ([Id], [UserProfileId], [PostId], [Message])
 VALUES
   (1, 2, 1, 'A comment is a comment is a comment');
+
+INSERT INTO [Comment]
+  ([Id], [UserProfileId], [PostId], [Message])
+VALUES
+  (2, 2, 1, 'This is a second comment');
 SET IDENTITY_INSERT [Comment] OFF

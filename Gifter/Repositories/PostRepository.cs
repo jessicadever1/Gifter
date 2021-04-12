@@ -211,9 +211,12 @@ namespace Gifter.Repositories
                     var reader = cmd.ExecuteReader();
 
                     Post post = null;
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        post = new Post()
+                        if (post == null) 
+                        { 
+                        
+                            post = new Post()
                         {
                             Id = id,
                             Title = DbUtils.GetString(reader, "Title"),
@@ -231,6 +234,7 @@ namespace Gifter.Repositories
                             },
                             Comments = new List<Comment>()
                         };
+                        }
                         /*post.Comments.Add(new Comment()
                         {
                             Id = DbUtils.GetInt(reader, "CommentId"),
