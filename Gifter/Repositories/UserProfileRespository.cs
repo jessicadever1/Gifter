@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Gifter.Models;
 using Gifter.Utils;
+using Microsoft.Extensions.Configuration;
 
 namespace Gifter.Repositories
 {
-    public class UserProfileRespository : BaseRepository
+    public class UserProfileRepository : BaseRepository, IUserProfileRepository
     {
         public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
 
@@ -71,13 +72,13 @@ namespace Gifter.Repositories
                     {
                         profile = new UserProfile()
                         {
-                            
-                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
-                                Name = DbUtils.GetString(reader, "Name"),
-                                Email = DbUtils.GetString(reader, "Email"),
-                                DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
-                                ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
-                            
+
+                            Id = DbUtils.GetInt(reader, "PostUserProfileId"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                            ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+
                         };
                     }
 
@@ -89,6 +90,75 @@ namespace Gifter.Repositories
         }
 
 
+
+
+        public void Add(UserProfile profile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO UserProfile (Name, Email, ImageUrl, DateCreated)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name, @Email, @DateCreated, @ImageUrl)";
+
+                    DbUtils.AddParameter(cmd, "@Name", profile.Name);
+                    DbUtils.AddParameter(cmd, "@Email", profile.Email);
+                    DbUtils.AddParameter(cmd, "@DateCreated", profile.DateCreated);
+                    DbUtils.AddParameter(cmd, "@ImageUrl", profile.ImageUrl);
+
+                    profile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+
+
+
+        public void Update(UserProfile profile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE UserProfile
+                           SET Name = @Name,
+                               Email = @Email,
+                               DateCreated = @DateCreated,
+                               ImageUrl = @ImageUrl
+                         WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Name", profile.Name);
+                    DbUtils.AddParameter(cmd, "@Email", profile.Email);
+                    DbUtils.AddParameter(cmd, "@DateCreated", profile.DateCreated);
+                    DbUtils.AddParameter(cmd, "@ImageUrl", profile.ImageUrl);
+                    DbUtils.AddParameter(cmd, "@Id", profile.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM UserProfile WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }
