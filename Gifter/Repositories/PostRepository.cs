@@ -194,7 +194,7 @@ namespace Gifter.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT p.Title, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId,
+                          SELECT p.Title, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId, p.Id,
 
                             up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                             up.ImageUrl AS UserProfileImageUrl, up.id AS PostUserProfileId,
@@ -231,13 +231,34 @@ namespace Gifter.Repositories
                             },
                             Comments = new List<Comment>()
                         };
+                        /*post.Comments.Add(new Comment()
+                        {
+                            Id = DbUtils.GetInt(reader, "CommentId"),
+                            Message = DbUtils.GetString(reader, "Message"),
+                            PostId = id,
+                            UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId")
+                        });*/
 
+                        if (DbUtils.IsNotDbNull(reader, "CommentId"))
+                        {
+                            post.Comments.Add(new Comment()
+                            {
+                                Id = DbUtils.GetInt(reader, "CommentId"),
+                                Message = DbUtils.GetString(reader, "Message"),
+                                PostId = id,
+                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId")
+                            });
+                        }
+
+
+    
+                        
+                    
                     }
-
                     reader.Close();
-
                     return post;
                 }
+
             }
         }
 
