@@ -15,7 +15,7 @@ export const PostForm = () => {
     })
 
     useEffect(() => {
-        getAllPosts(postId)
+        getAllPosts(post.id)
             .then(post => {
                 setPost(post)
             })
@@ -40,21 +40,29 @@ export const PostForm = () => {
                 <fieldset>
                     <div className="">
                         <label htmlFor="title">Post title:</label>
-                        <input type="text" id="title" onChange={ } required autoFocus className="" placeholder="Post title" value={post.Title} />
+                        <input type="text" id="title" required autoFocus className="" placeholder="Post title" value={post.Title} />
                     </div>
                 </fieldset>
                 <fieldset>
                     <div className="">
-                        <label htmlFor="caption">Post title:</label>
-                        <input type="text" id="caption" onChange={ } required autoFocus className="" placeholder="Post title" value={post.Title} />
+                        <label htmlFor="caption">Caption:</label>
+                        <input type="text" id="caption" required autoFocus className="" placeholder="Post caption" value={post.Caption} />
                     </div>
                 </fieldset>
                 <fieldset>
                     <div className="">
                         <label htmlFor="date">Date Created:</label>
-                        <input type="date" id="date" onChange={ } required autoFocus className="" placeholder="" value={post.DateCreated} />
+                        <input type="date" id="date" required autoFocus className="" placeholder="" value={post.DateCreated} />
                     </div>
                 </fieldset>
+                <div className="centerReviewSubmitBtn">
+                    <button id={post.id} className="btn btn-primary"
+                        onClick={
+                            handleClickSavePost
+                        }>
+                        Save Post
+                    </button>
+                </div>
             </form>
         </section>
     )
