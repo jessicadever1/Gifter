@@ -132,7 +132,7 @@ namespace Gifter.Repositories
                             };
                         }
                       
-                        if (DbUtils.IsNotDbNull(reader, "CommentId"))
+                        if (DbUtils.IsNotDbNull(reader, "PostId"))
                         {
                             profile.Posts.Add(new Post()
                             {
