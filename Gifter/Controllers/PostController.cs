@@ -50,6 +50,18 @@ namespace Gifter.Controllers
             return Ok(post);
         }
 
+        [HttpGet("searchByTitleAndCaption")]
+        public IActionResult SearchByTitleAndCaption(string q, string c, bool sortDesc)
+        {
+            return Ok(_postRepository.SearchByTitleAndCaption(q, c, sortDesc));
+        }
+
+        [HttpGet("searchByDate")]
+        public IActionResult SearchByDate(DateTime date, bool sortDesc)
+        {
+            return Ok(_postRepository.SearchByDate(date, sortDesc));
+        }
+
         [HttpPost]
         public IActionResult Post(Post post)
         {

@@ -1,9 +1,10 @@
-﻿SELECT up.[Name], up.Bio, up.DateCreated, up.ImageUrl, up.Email,
+﻿SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
+    p.ImageUrl AS PostImageUrl, p.UserProfileId,
 
-p.Title, p.Id AS PostId, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId AS UserProfileId
-
-FROM UserProfile up
-LEFT JOIN Post p ON p.UserProfileId = up.Id 
-WHERE up.Id = 1;
+    up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
+    up.ImageUrl AS UserProfileImageUrl
+FROM Post p 
+    LEFT JOIN UserProfile up ON p.UserProfileId = up.id
+WHERE p.DateCreated >= 2020-04-20
 
 
