@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Gifter.Repositories;
+﻿using Gifter.Repositories;
 using Gifter.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gifter.Controllers
@@ -23,6 +18,43 @@ namespace Gifter.Controllers
         public IActionResult Get()
         {
             return Ok(_userProfileRepository.GetAll());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var profile = _userProfileRepository.GetById(id);
+            if (profile == null)
+            {
+                return NotFound();
+            }
+            return Ok(profile);
+        }
+
+        [HttpPost]
+        public IActionResult Post(UserProfile profile)
+        {
+            _userProfileRepository.Add(profile);
+            return CreatedAtAction("Get", new { id = profile.Id }, profile);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, UserProfile profile)
+        {
+            if (id != profile.Id)
+            {
+                return BadRequest();
+            }
+
+            _userProfileRepository.Update(profile);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _userProfileRepository.Delete(id);
+            return NoContent();
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿SELECT p.Title, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId,
+﻿SELECT up.[Name], up.Bio, up.DateCreated, up.ImageUrl, up.Email,
 
-up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
-up.ImageUrl AS UserProfileImageUrl, up.id AS PostUserProfileId,
+p.Title, p.Id AS PostId, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId AS UserProfileId
 
-c.Id AS CommentId, c.[Message], c.UserProfileId AS CommentUserProfileId
-
-FROM Post p
-LEFT JOIN UserProfile up ON p.UserProfileId = up.id 
-LEFT JOIN Comment c on c.PostId = p.id
-WHERE p.Id = 1;
+FROM UserProfile up
+LEFT JOIN Post p ON p.UserProfileId = up.Id 
+WHERE up.Id = 1;
 
 

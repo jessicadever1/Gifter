@@ -215,7 +215,6 @@ namespace Gifter.Repositories
                     {
                         if (post == null) 
                         { 
-                        
                             post = new Post()
                         {
                             Id = id,
