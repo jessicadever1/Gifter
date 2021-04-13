@@ -57,9 +57,9 @@ namespace Gifter.Controllers
         }
 
         [HttpGet("searchByDate")]
-        public IActionResult SearchByDate(DateTime date, bool sortDesc)
+        public IActionResult SearchByDate(DateTime date)
         {
-            return Ok(_postRepository.SearchByDate(date, sortDesc));
+            return Ok(_postRepository.SearchByDate(date));
         }
 
         [HttpPost]

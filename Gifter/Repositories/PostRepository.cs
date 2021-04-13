@@ -332,7 +332,7 @@ namespace Gifter.Repositories
 
 
 
-        public List<Post> SearchByDate(DateTime date, bool sortDescending)
+        public List<Post> SearchByDate(DateTime date)
         {
             using (var conn = Connection)
             {
@@ -348,15 +348,6 @@ namespace Gifter.Repositories
                     FROM Post p 
                         LEFT JOIN UserProfile up ON p.UserProfileId = up.id
                     WHERE p.DateCreated >= @date";
-
-                    if (sortDescending)
-                    {
-                        sql += " ORDER BY p.DateCreated DESC";
-                    }
-                    else
-                    {
-                        sql += " ORDER BY p.DateCreated";
-                    }
 
                     cmd.CommandText = sql;
                     DbUtils.AddParameter(cmd, "@date", $"{date}");

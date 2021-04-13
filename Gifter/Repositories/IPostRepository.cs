@@ -14,6 +14,6 @@ namespace Gifter.Repositories
         List<Post> GetAllWithComments();
         Post GetPostByIdWithComments(int id);
         List<Post> SearchByTitleAndCaption(string criterion, string taco, bool sortDescending);
-        List<Post> SearchByDate(DateTime date, bool sortDescending);
+        List<Post> SearchByDate(DateTime date);
     }
 }
