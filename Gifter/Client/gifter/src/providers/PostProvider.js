@@ -21,8 +21,14 @@ export const PostProvider = (props) => {
         });
     };
 
+    const searchByTitle = (searchedTitle) => {
+        return fetch(`/api/Post/searchByTitle?q=${searchedTitle}&sortDesc=true`)
+            .then((res) => res.json())
+            .then(setPosts);
+    }
+
     return (
-        <PostContext.Provider value={{ posts, getAllPosts, addPost }}>
+        <PostContext.Provider value={{ posts, getAllPosts, addPost, searchByTitle }}>
             {props.children}
         </PostContext.Provider>
     );
