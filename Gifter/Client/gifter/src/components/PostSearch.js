@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { PostContext } from "../providers/PostProvider";
 
-const PostList = () => {
+const PostSearch = () => {
     const { searchByTitle } = useContext(PostContext);
     const [searchedTitle, setSearchedTitle] = useState("")
 
@@ -13,15 +13,15 @@ const PostList = () => {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <label for="search">Search By Title:</label>
+                <label >Search By Title:</label>
                 <input
                     className="search"
                     id="search"
                     name="search"
                     type="text"
                     placeholder="Enter Title"
-                    onclick={handleInputChange}
-                    value={searchedTitle}></input>
+                    onClick={handleInputChange}
+                ></input>
                 <button onClick={(event) => {
                     event.preventDefault();
                     searchByTitle(searchedTitle)
@@ -31,4 +31,4 @@ const PostList = () => {
     );
 };
 
-export default PostList;
+export default PostSearch;
